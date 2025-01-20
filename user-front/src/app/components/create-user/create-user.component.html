@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div id="container" class=" row justify-content-center align-items-center">
+    <h2 class="text-center text-primary my-4">Crear Usuario</h2>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="col-12 col-md-6 col-lg-4">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input id="nombre" formControlName="nombre" class="form-control align-self-center"/>
+        <div *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched">
+          El nombre es obligatorio.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo:</label>
+        <input id="email" formControlName="email" class="form-control"/>
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          El email es obligatorio.
+        </div>
+      </div>
+      <div class="grid text-center">
+        <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary col-6 align-self-center">Crear Usuario</button>
+      </div>
+      
+    </form>
+  </div>
+  
+</body>
+
