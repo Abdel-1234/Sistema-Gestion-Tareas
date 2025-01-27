@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateUserComponent {
   userForm: FormGroup;
+  @Input() showModal: Boolean = false;
+  @Output() closeModalForm = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
@@ -23,6 +25,7 @@ export class CreateUserComponent {
 
   onSubmit(): void {
     if (this.userForm.valid) {
+      console.log("Correcto");
       const user: User = this.userForm.value;
       this.userService.createUser(user).subscribe({
         next: (response) => {
@@ -37,5 +40,9 @@ export class CreateUserComponent {
     } else {
       alert('Completa los campos correctamente');
     }
+  }
+  closeModal(){
+    this.showModal = false;
+    this.closeModalForm.emit();
   }
 }

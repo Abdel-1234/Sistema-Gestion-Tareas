@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+
+.chat-container {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box {
+  flex: 1;
+  padding: 10px;
+  min-height: 400px; 
+  max-height: 600px; 
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png'); 
+  border-bottom: 1px solid #ddd;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 12px; 
+}
+
+.message strong {
+  font-weight: bold;
+}
+
+.message:nth-child(odd) {
+  background-color: #e9ecef;
+}
+
+.message:nth-child(even) {
+  background-color: #f1f3f5;
+}
+
+.chat-input-container {
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.chat-input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 16px; 
+  padding: 10px;
+}
+
+.btn-send {
+  background-color: #4caf50; 
+  border: none;
+  border-radius: 16px; 
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-send:hover {
+  background-color: #45a049; 
+}

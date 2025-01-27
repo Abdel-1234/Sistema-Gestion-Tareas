@@ -1,0 +1,25 @@
+
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2 class="modal-title">Editar Usuario</h2>
+      <form (ngSubmit)="guardarUsuario()">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input id="nombre" [(ngModel)]="user.nombre" name="nombre" class="form-control" required=""/>
+        </div>
+  
+        <div class="form-group">
+          <label for="email">Correo:</label>
+          <input id="email" [(ngModel)]="user.email" name="email" class="form-control" required=""/>          
+        </div>
+  
+        <div class="button-group">
+          <button class="submit-button">Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+</div>
+  
+  
+  

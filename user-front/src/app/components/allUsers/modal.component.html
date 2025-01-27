@@ -1,0 +1,12 @@
+<div class="modal" *ngIf="data"> 
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2 class="text-center text-primary my-4">Usuarios</h2>
+      <li *ngFor="let user of data">
+        <app-edit-user *ngIf="showModal" [user]="UsuarioSelected" [showModal]="showModal" (closeModalForm)="closeModalForm()" (refrescar)="refrescar()"></app-edit-user>
+        <strong> Usuario:</strong> {{ user.nombre }} <strong> Email:</strong> {{ user.email }} 
+        <span class="mx-2" (click)="openModal(user)"style="cursor: pointer;" title="Modificar">✏️</span>
+        <span class="mx-2" (click)="deleteUser(user.id ?? 0)" style="cursor: pointer;" title="Eliminar"> ❌</span>
+      </li>
+    </div>
+</div>

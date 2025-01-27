@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CreateUserComponent } from './components/create-user/create-user.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CreateUserComponent],
-  template: `<app-create-user></app-create-user>`,
+  imports: [ChatbotComponent],
+  template: '<app-chatbot></app-chatbot>', 
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {}
