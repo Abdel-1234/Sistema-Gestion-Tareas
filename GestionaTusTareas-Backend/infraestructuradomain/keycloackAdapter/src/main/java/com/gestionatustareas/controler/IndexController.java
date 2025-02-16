@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @RestController
+@RequestMapping("/keycloak")
 public class IndexController {
 
     private final Logger logger = LoggerFactory.getLogger(IndexController.class);
@@ -38,21 +39,17 @@ public class IndexController {
         try {
             DecodedJWT jwt = JWT.decode(authHeader.replace("Bearer", "").trim());
 
-            // Verificar que el JWT es válido
             Jwk jwk = jwtService.getJwk();
             Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
             algorithm.verify(jwt);
 
-            // Obtener roles del JWT
             List<String> roles = (List<String>) jwt.getClaim("realm_access").asMap().get("roles");
 
-            // Verificar que el token no ha expirado
             Date expiryDate = jwt.getExpiresAt();
             if (expiryDate.before(new Date())) {
-                throw new Exception("Token is expired");
+                throw new Exception("Token expirado");
             }
 
-            // Validación pasada, construir respuesta
             Map<String, Integer> rolesWithLengths = new HashMap<>();
             for (String role : roles) {
                 rolesWithLengths.put(role, role.length());
@@ -79,8 +76,8 @@ public class IndexController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(String username, String password) {
-        String loginResponse = restService.login(username, password);
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        String loginResponse = restService.login(loginRequest.getUsername(), loginRequest.getPassword());
         return ResponseEntity.ok(loginResponse);
     }
 
@@ -92,7 +89,7 @@ public class IndexController {
             response.put("logout", "true");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Unable to logout, exception: {}", e.getMessage());
+            logger.error("No se puede cerrar sesión, exception: {}", e.getMessage());
             throw new BussinesRuleException("logout", "False", HttpStatus.FORBIDDEN);
         }
     }
@@ -102,7 +99,7 @@ public class IndexController {
         try {
             return ResponseEntity.ok(restService.refresh(refreshToken));
         } catch (Exception e) {
-            logger.error("Unable to refresh, exception: {}", e.getMessage());
+            logger.error("No se puede actualizar, exception: {}", e.getMessage());
             throw new BussinesRuleException("refresh", "False", HttpStatus.FORBIDDEN);
         }
     }

@@ -101,7 +101,6 @@ public class KeycloakRestService {
     public List<String> getRoles(String token) throws Exception {
         String response = getUserInfo(token);
 
-        // get roles
         Map map = new ObjectMapper().readValue(response, HashMap.class);
         return (List<String>) map.get("roles");
     }

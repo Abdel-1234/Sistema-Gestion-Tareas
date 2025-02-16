@@ -1,0 +1,57 @@
+## YAML Template.
+---
+server:
+    port: 8079
+
+eureka:
+    client:
+        serviceUrl:
+            defaultzone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+        registerWithEureka: true
+        fetchRegistry: true
+        
+logging:
+    level:
+        org.springframework.cloud.gateway: DEBUG
+        reactor.netty.http.client: DEBUG
+
+spring:
+  application:
+      name: apigateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+      - id: user_service
+        uri: lb://businessdomain-user
+        predicates:
+          - Path=/user/**
+        filters:
+          - name: AuthenticationFiltering
+      
+      - id: tarea_service
+        uri: lb://businessdomain-tarea
+        predicates:
+          - Path=/tarea/**
+        filters:
+          - name: AuthenticationFiltering
+          
+      - id: notificacion_service
+        uri: lb://businessdomain-notificacion
+        predicates:
+          - Path=/notificacion/**
+        filters:
+          - name: AuthenticationFiltering
+          
+      - id: keycloak_service
+        uri: lb://keycloack
+        predicates:
+          - Path=/keycloak/login, /keycloak/roles
+    config:
+        enabled: false
+

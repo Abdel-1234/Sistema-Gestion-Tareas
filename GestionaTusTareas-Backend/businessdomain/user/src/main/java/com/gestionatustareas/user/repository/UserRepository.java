@@ -6,6 +6,7 @@ package com.gestionatustareas.user.repository;
 
 import com.gestionatustareas.user.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
 
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author usuario
  */
+@Repository
 public interface UserRepository extends JpaRepository<Usuario, Long> {
     
 }

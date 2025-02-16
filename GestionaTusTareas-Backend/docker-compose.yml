@@ -55,12 +55,11 @@ services:
     image: user_image:latest 
     environment:
       - JAVA_OPTS=
-         -Xms256M 
-         -Xmx256M
-         -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
-         -CONFIG_SERVER=http://configserver:8888/
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
     ports:
-      - 8090:8079
+      - 8090:8080
     depends_on:
       - registry-discovery
   
@@ -72,7 +71,6 @@ services:
          -Xms256M 
          -Xmx256M
          -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
-
     depends_on:
       - registry-discovery
     ports:
@@ -87,8 +85,7 @@ services:
          -Xmx256M
          -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
          -DKEYCLOACK_SERVER=http://keycloack_server:8080/realms/
-         -DKEYCLOACK_REAL_ID=bdEyQBO1wGToqPgaj-tuwzn1KEGxtsnl8NUH1AgHts8
-         #-Dspring.cloud.config.server.native.searchLocations=/var/config-data
+         -DKEYCLOACK_REAL_ID=GMv8Wi2gpnA0cF6MHHhst1R_47bSNx_bIEqjBb58Hpk
     depends_on:
       - registry-discovery
     ports:
@@ -118,7 +115,7 @@ services:
       environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: qwerty
-        POSTGRES_DB: usurio
+        POSTGRES_DB: usuario
 
   pgadmin4:
     image: dpage/pgadmin4:latest
@@ -139,9 +136,15 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres_db:5432/keyckloakServer
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: qwerty
     command: start-dev
     ports:
       - 8091:8080
+    depends_on:
+      - postgres_db
 
 
 

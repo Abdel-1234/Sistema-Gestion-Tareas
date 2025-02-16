@@ -22,7 +22,6 @@ export class ModalComponent {
     this.data = null;
   }
   deleteUser(id: number): void {
-    
     if(id != 0){
       this.userService.deleteUser(id).subscribe({
         next: () => {

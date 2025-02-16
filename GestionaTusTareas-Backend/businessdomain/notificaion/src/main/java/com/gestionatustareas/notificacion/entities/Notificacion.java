@@ -5,7 +5,6 @@
 package com.gestionatustareas.notificacion.entities;
 
 import com.gestionatustareas.notificacion.enums.TipoNotificacion;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -41,7 +40,6 @@ public class Notificacion {
     
     private LocalDateTime fechaVencimiento;
     
-    @Column(columnDefinition = "booleano por defecto false")
     private boolean leido = Boolean.FALSE;
 
 }

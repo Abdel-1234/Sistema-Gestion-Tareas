@@ -7,13 +7,15 @@ import { Message } from '../../interfaces/message';
 import { User } from '../../models/user';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { ChatbotService } from '../../services/huggingface_IA.service';
+import { RouterModule } from '@angular/router';
+import {  Router } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent, CreateUserComponent], 
+  imports: [CommonModule, FormsModule, ModalComponent, CreateUserComponent, RouterModule], 
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css'],
 })
@@ -27,7 +29,7 @@ export class ChatbotComponent {
   showModal: boolean = false;
   showModalForm: boolean = false;
 
-  constructor(private userService: UserService, private openAIService: ChatbotService) {
+  constructor(private userService: UserService, private openAIService: ChatbotService, private router: Router) {
     this.messages.push({ sender: 'bot', text: 'Dime que operación quieres que ejecute 🙂' });
     this.messagesChatBot.push({ sender: 'bot', text: 'Hola, dime algo 🙂' });
 
@@ -84,9 +86,14 @@ export class ChatbotComponent {
           this.messages.push({ sender: 'bot', text: 'Te ayudo en algo más?' });
         },
         (error) => {
+          if (error.status === 404) {
+            alert('No autorizado, su sesión ha caducado, debe volver a loguease. :)');
+          }
+          localStorage.removeItem('token');
           console.error('Error al obtener usuarios:', error);
           this.messages.pop();
           this.messages.push({ sender: 'bot', text: 'No pude obtener los usuarios, intentalo más tarde.' });
+          this.router.navigate(['/login']);
         }
       );
     } else if(message.toLowerCase().includes('crear') && message.toLowerCase().includes('usuario') ){

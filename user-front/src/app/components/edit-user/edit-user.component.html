@@ -3,7 +3,7 @@
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <h2 class="modal-title">Editar Usuario</h2>
-      <form (ngSubmit)="guardarUsuario()">
+      <form #loginForm="ngForm" (ngSubmit)="guardarUsuario()">
         <div class="form-group">
           <label for="nombre">Nombre:</label>
           <input id="nombre" [(ngModel)]="user.nombre" name="nombre" class="form-control" required=""/>

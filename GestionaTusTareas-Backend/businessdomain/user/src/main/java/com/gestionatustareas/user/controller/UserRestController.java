@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Tag(name = "User API", description = "Esta API proporciona todas las funcionalidades para la gestión de usuarios.")
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200")
 public class UserRestController {
 
     @Autowired
@@ -47,13 +46,14 @@ public class UserRestController {
     @Autowired
     private Environment env; 
     
+    //-check
     @GetMapping("/check")
     @Operation(description = "Devuelve el perfil que se utiliza", summary = "Devuelve null si no se encuentran datos")
     public String check() {
-        return "Hello your proerty value is: "+ env.getProperty("custom.activeprofileName");
+        return "El perfil que utilizas es: "+ env.getProperty("custom.activeprofileName");
     }
     
-    
+    //-GET
     @Operation(description = "Devuelve todos los usuarios guardados", summary = "Devuelve 204 si no se encuentran datos")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Éxito"),
@@ -63,6 +63,8 @@ public class UserRestController {
     public List<Usuario> findAll() {
         return userRepository.findAll();
     }
+    
+    //-Full
     @Operation(description = "Devuelve todos los usuarios guardados con sus notificaciones y tareas correspondientes", summary = "Devuelve 204 si no se encuentran datos")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Éxito"),
@@ -73,7 +75,7 @@ public class UserRestController {
         return bussinesTransaction.full();
     }
     
-    
+    //-GET id
     @Operation(
         description = "Obtiene un usuario por ID",
         summary = "Devuelve 404 si el usuario no existe"
@@ -84,10 +86,11 @@ public class UserRestController {
         @ApiResponse(responseCode = "500", description = "Error interno")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") long id) {
+    public ResponseEntity<Usuario> get(@PathVariable("id") long id) {
         return bussinesTransaction.get(id);
     }
     
+    //-PUT
     @Operation(
         description = "Actualiza un usuario existente",
         summary = "Devuelve 404 si el usuario no existe"
@@ -98,7 +101,7 @@ public class UserRestController {
         @ApiResponse(responseCode = "500", description = "Error interno")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable("id") long id, @RequestBody Usuario input) {
+    public ResponseEntity<Usuario> put(@PathVariable("id") long id, @RequestBody Usuario input) {
         Optional<Usuario> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             Usuario newUser = optionalUser.get();
@@ -111,6 +114,7 @@ public class UserRestController {
         }
     }
     
+    //-POST
     @Operation(
         description = "Crea un nuevo usuario",
         summary = "Devuelve 400 si la entrada es inválida"
@@ -121,10 +125,12 @@ public class UserRestController {
         @ApiResponse(responseCode = "500", description = "Error interno")
     })
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody Usuario input) {
+    public ResponseEntity<Usuario> post(@RequestBody Usuario input) {
         Usuario save = userRepository.save(input);
         return ResponseEntity.ok(save);
     }
+    
+    //-DELETE
     @Operation(
         description = "Elimina un usuario por ID",
         summary = "Devuelve 404 si el usuario no existe"
